@@ -30,7 +30,7 @@ public class Player{
             if (playercard == 0) {
                 if (deck.canDeal()) {
                     hand.add(deck.deal());
-                    System.out.println("Your new hand is \n" + handToString());
+                    System.out.println(handToString());
                     continue;
                 } else {
                     System.out.println("Deck is empty");
