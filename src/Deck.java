@@ -8,22 +8,14 @@ public class Deck{
         top = 0;
         deck = new Card [52];
         char [] ranks = new char [] {'s' , 'h', 'c' , 'd' };
-        for (int i = 0; i<13; i++)
-        {
+        for(int i = 0; i<13; i++){
             deck [i] = new Card ( 's' , i+1);
+            deck [i+13] = new Card ( 'h' , i+1);
+            deck [i+26] = new Card ( 'c' , i+1);
+            deck [i+39] = new Card ( 'd' , i+1);
         }
-        for (int i = 13; i<26; i++)
-        {
-            deck [i] = new Card ( 'h' , i-13+1);
-        }
-        for (int i = 26; i<39; i++)
-        {
-            deck [i] = new Card ( 'c' , i-26 + 1);
-        }
-        for (int i = 39; i<52; i++)
-        {
-            deck [i] = new Card ( 'd' , i-39+1);
-        }
+
+        shuffle();
     }
     // Deals the top card off the deck
     public Card deal(){

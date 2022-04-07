@@ -52,8 +52,10 @@ public class Card{
         if (rank == 10)
             rankWord = "Ten";
         if (rank == 11)
-            rankWord = "Queen";
+            rankWord = "Jack";
         if (rank == 12)
+            rankWord = "Queen";
+        if (rank == 13)
             rankWord = "King";
         return rankWord + " of " + suitWord;
     }

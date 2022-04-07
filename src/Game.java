@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Game{
 
     private char currentSuit; // need in case an 8 is player
-    private Card faceup; 
+    private static Card faceup;
     private Scanner input;
     private Player p1;
     private ArrayList<Card> compHand;
@@ -15,11 +15,13 @@ public class Game{
     public Game(){
         cards = new Deck();
         compHand = new ArrayList<Card>(7);
+        p1 = new Player();
         for(int i=0; i<7 ; i++){
             compHand.add(cards.deal());
+            p1.addCard(cards.deal());
         }
 
-        p1 = new Player();
+
         faceup = cards.deal();
         currentSuit = faceup.getSuit();
         input = new Scanner(System.in);
@@ -31,22 +33,36 @@ public class Game{
     // Plays a game of crazy eights. 
     // Returns true to continue playing and false to stop playing
     public boolean play() {
+        System.out.println("The top card is " + faceup.toString());
         while (!gameover) {
-            System.out.println("The top card is " + faceup.toString());
             System.out.println(p1.handToString());
 
 
             Card playerCard = null;
-            while (verifyCard(playerCard) == false) {
-                playerCard = p1.playsTurn(cards);
-                if (playerCard == null) {
-                    gameover = true;
-                    break;
-                }
+
+            playerCard = p1.playsTurn(cards);
+
+            if (playerCard == null) {
+                checkless();
+                break;
             }
             faceup = playerCard;
+            if(p1.getHand().size()==0){
+                System.out.println("You win!!");
+                break;
+            }
 
             faceup = computerTurn();
+            System.out.println("Computer has played a " + faceup.toString()+"\nComputer has "+compHand.size()+" cards left");
+            if(compHand.size()==0){
+                System.out.println("Computer wins, and YOU LOSE!!");
+                break;
+            }
+            if(faceup==null){
+                checkless();
+                break;
+            }
+
         }
 
         System.out.println("Do you want to play again? Enter \"yes\" to play again, anything else will be no");
@@ -82,7 +98,7 @@ public class Game{
         return null;
     }
 
-    public boolean verifyCard(Card temp){
+    public static boolean verifyCard(Card temp){
          if(temp==null){
              return false;
          }
@@ -90,6 +106,16 @@ public class Game{
             return true;
         }
         return false;
+    }
+
+    public void checkless(){
+         if(p1.getHand().size()<compHand.size()){
+             System.out.println("No cards left, but you have less cards so you win!!");
+         }else if (p1.getHand().size()==compHand.size()){
+             System.out.println("No cards left. You and computer have same number of cards so it's a tie");
+         }else{
+             System.out.println("No cards left. Computer has less cards so YOU LOSE!");;
+         }
     }
    // you will likely wish to have several more helper methods to simplify
    // and shorten the methods above.
